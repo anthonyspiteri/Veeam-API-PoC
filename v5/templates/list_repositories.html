@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mt-4">Available Repositories</h2>
+    <div class="row">
+      {% for repository in repositories %}
+        <div class="col-md-4 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ repository.name }}</h5>
+              <p class="card-text">
+                <strong>Type:</strong> {{ repository.type }}<br>
+                <strong>Path:</strong> {{ repository.path }}<br>
+                <strong>Host ID:</strong> {{ repository.hostId }}<br>
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

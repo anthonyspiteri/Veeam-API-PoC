@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mt-4">Available vCenters</h2>
+    <div class="row">
+      {% for vcenter in vcenters %}
+        <div class="col-md-4 mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ vcenter.inventoryObject.name }}</h5>
+              <p class="card-text">
+                <strong>Type:</strong> {{ vcenter.inventoryObject.type }}<br>
+                <strong>Host Name:</strong> {{ vcenter.inventoryObject.hostName }}<br>
+                <strong>Object ID:</strong> {{ vcenter.inventoryObject.objectId }}<br>
+                <strong>Size:</strong> {{ vcenter.size }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

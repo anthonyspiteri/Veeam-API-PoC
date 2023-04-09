@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Authenticate{% endblock %}
+
+{% block content %}
+    <h1>Veeam Authentication</h1>
+    <form method="post">
+        <label for="backup_server">Backup Server:</label>
+        <input type="text" id="backup_server" name="backup_server" required>
+        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Authenticate">
+    </form>
+{% endblock %}

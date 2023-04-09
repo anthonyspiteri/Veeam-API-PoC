@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}List vCenters{% endblock %}
+
+{% block content %}
+    <h1>Available vCenters</h1>
+    <ul>
+        {% for vcenter in vcenters %}
+            <li>{{ vcenter.inventoryObject.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

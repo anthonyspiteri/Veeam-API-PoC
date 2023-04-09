@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>vCenters List</title>
+  </head>
+  <body>
+    <h1>List of vCenters</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+        </tr>
+        {% for vcenter in vcenters %}
+        <tr>
+            <td>{{ vcenter.name }}</td>
+            <td>{{ vcenter.id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  </body>
+</html>
