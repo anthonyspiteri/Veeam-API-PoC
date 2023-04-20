@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">Authenticate</h2>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-{{ 'success' if authenticated else 'danger' }} mt-4">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% if not authenticated %}
+  <form class="mt-4" action="{{ url_for('authenticate') }}" method="post">
+    <div class="form-group">
+      <label for="backup_server">Backup Server</label>
+      <input type="text" class="form-control" id="backup_server" name="backup_server" placeholder="Enter backup server address">
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+    </div>
+    <button type="submit" class="btn btn-primary">Authenticate</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
+

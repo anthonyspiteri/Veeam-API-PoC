@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Object Restore Points</h2>
+
+  {% if object_restore_points %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Creation Time</th>
+          <th>Platform</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object_restore_point in object_restore_points %}
+          <tr>
+            <td>{{ object_restore_point.id }}</td>
+            <td>{{ object_restore_point.name }}</td>
+            <td>{{ object_restore_point.creationTime }}</td>
+            <td>{{ object_restore_point.platform }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No object restore points found.</p>
+  {% endif %}
+
+  <a href="{{ url_for('welcome') }}" class="btn btn-primary">Back to Dashboard</a>
+{% endblock %}
+

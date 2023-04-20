@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>List Jobs</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job.name }}</td>
+            <td>{{ job.type }}</td>
+            <td>{{ 'Enabled' if job.isEnabled else 'Disabled' }}</td>
+            <td>
+                <form action="{{ url_for('start_job', job_id=job.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-primary">Start</button>
+                </form>
+                <form action="{{ url_for('stop_job', job_id=job.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">Stop</button>
+                </form>
+                <form action="{{ url_for('enable_job', job_id=job.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-success">Enable</button>
+                </form>
+                <form action="{{ url_for('disable_job', job_id=job.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Disable</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
