@@ -126,40 +126,6 @@ def job_action(job_id, action):
 
     return redirect(url_for('list_jobs'))
 
-@app.route('/start_job/<job_id>', methods=['POST'])
-def start_job(job_id):
-    access_token = session.get('access_token')
-    backup_server = session.get    ('backup_server')
-
-    if access_token and backup_server:
-        success = start_job(backup_server, access_token, job_id)
-
-        if success:
-            flash("Job started successfully.")
-        else:
-            flash("Failed to start the job.")
-    else:
-        flash("Please authenticate first.")
-
-    return redirect(url_for('list_jobs'))
-
-@app.route('/stop_job/<job_id>', methods=['POST'])
-def stop_job(job_id):
-    access_token = session.get('access_token')
-    backup_server = session.get('backup_server')
-
-    if access_token and backup_server:
-        success = stop_job(backup_server, access_token, job_id)
-
-        if success:
-            flash("Job stopped successfully.")
-        else:
-            flash("Failed to stop the job.")
-    else:
-        flash("Please authenticate first.")
-
-    return redirect(url_for('list_jobs'))
-
 @app.route('/logout')
 def logout():
     session.pop('access_token', None)
@@ -191,6 +157,40 @@ def server_info():
     else:
         flash("Please authenticate first.")
         return redirect(url_for('authenticate'))
+    
+@app.route('/start_job/<job_id>', methods=['POST'])
+def start_job_route(job_id):
+    access_token = session.get('access_token')
+    backup_server = session.get('backup_server')
+    
+    if not access_token or not backup_server:
+        return redirect(url_for('login'))
+
+    success = start_job_api(backup_server, access_token, job_id)
+
+    if success:
+        flash('Job started successfully.', 'success')
+    else:
+        flash('Failed to start the job.', 'danger')
+
+    return redirect(url_for('list_jobs'))
+
+@app.route('/stop_job/<job_id>', methods=['POST'])
+def stop_job_route(job_id):
+    access_token = session.get('access_token')
+    backup_server = session.get('backup_server')
+
+    if not access_token or not backup_server:
+        return redirect(url_for('login'))
+
+    success = stop_job_api(backup_server, access_token, job_id)
+
+    if success:
+        flash('Job stopped successfully.', 'success')
+    else:
+        flash('Failed to stop the job.', 'danger')
+
+    return redirect(url_for('list_jobs'))
 
 def get_repositories(backup_server, access_token):
     repositories_url = f"https://{backup_server}:9419/api/v1/backupInfrastructure/repositories"
@@ -310,6 +310,34 @@ def get_server_info(backup_server, access_token):
         "build_number": json_response.get("buildVersion", "N/A"),
         "cumulative_patches": json_response.get("patches", []),
     }
+
+def start_job_api(backup_server, access_token, job_id):
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+        "x-api-version": "1.1-rev0"
+    }
+    url = f'https://{backup_server}:9419/api/v1/jobs/{job_id}/start'
+    response = requests.post(url, headers=headers, verify=False)
+    response.raise_for_status()
+
+    json_response = response.json()
+    print("JSON response:", json_response)
+    return response.status_code == 201
+
+def stop_job_api(backup_server, access_token, job_id):
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+        "x-api-version": "1.1-rev0"
+    }
+    url = f'https://{backup_server}:9419/api/v1/jobs/{job_id}/stop'
+    response = requests.post(url, headers=headers, verify=False)
+    response.raise_for_status()
+
+    json_response = response.json()
+    print("JSON response:", json_response)
+    return response.status_code == 201
 
 if __name__ == '__main__':
     app.run(debug=True)
