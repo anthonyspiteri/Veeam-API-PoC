@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="{{ url_for('index') }}" class="list-group-item">Home</a>
+                <a href="{{ url_for('server_info') }}" class="list-group-item active">Server Info</a>
+                <a href="{{ url_for('object_restore_points') }}" class="list-group-item">Object Restore Points</a>
+                <a href="{{ url_for('logout') }}" class="list-group-item">Logout</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h2>Server Information</h2>
+            {% if server_info %}
+            <table class="table table-striped">
+                <tr>
+                    <th>Installation ID</th>
+                    <td>{{ server_info.installation_id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ server_info.name }}</td>
+                </tr>
+                <tr>
+                    <th>Build Number</th>
+                    <td>{{ server_info.build_number }}</td>
+                </tr>
+                <tr>
+                    <th>Cumulative Patches</th>
+                    <td>
+                        {% if server_info.cumulative_patches %}
+                        <ul>
+                            {% for patch in server_info.cumulative_patches %}
+                            <li>{{ patch }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        None
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            {% else %}
+            <p>No server information available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

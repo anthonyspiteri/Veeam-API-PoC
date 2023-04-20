@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <h1>Welcome to ChatGTP Ideation by Natural Language PoC Veeam HTML Interface</h1>
+    {% if 'access_token' in session %}
+        <div class="authenticated-message">
+            <p>Authenticated! Choose an option from the sidebar menu.</p>
+        </div>
+    {% else %}
+        <p>Click <a href="{{ url_for('authenticate') }}">here</a> to authenticate.</p>
+    {% endif %}
+    <p>For more information, please visit the <a href="https://github.com/anthonyspiteri/Veeam-API-PoC" target="_blank">GitHub Repository</a>.</p>
+{% endblock %}
+
